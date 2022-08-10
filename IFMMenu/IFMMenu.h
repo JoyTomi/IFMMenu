@@ -39,6 +39,7 @@ typedef NS_ENUM(NSInteger, IFMMenuSegmenteLineStyle) {
 @property (nonatomic, assign) CGFloat minMenuItemWidth;  //按钮最小宽度
 @property (nonatomic, assign) UIEdgeInsets edgeInsets;   //按钮内边距
 @property (nonatomic, assign) UIEdgeInsets padding;   //下拉框的内边距
+@property (nonatomic, assign) CGFloat marginY;   //按钮上下间距
 @property (nonatomic, assign) CGFloat gapBetweenImageTitle;  //图片和标题间距
 @property (nonatomic, assign) IFMMenuBackgroundStyle menuBackgroundStyle;    //背景类型
 @property (nonatomic, assign) IFMMenuSegmenteLineStyle menuSegmenteLineStyle;    //分割线类型

@@ -292,31 +292,32 @@ typedef NS_ENUM(NSInteger, IFMMenuViewArrowDirection) {
         if (_menu.itemCornerRadiu) {
             button.layer.cornerRadius = _menu.itemCornerRadiu;
         }
+        button.layer.masksToBounds = YES;
         
         [contentView addSubview:button];
         
-        //画分割线
-        if (itemNum < _menuItems.count - 1) {
-            
-            UIView *segmenteLine = [[UIView alloc] init];
-            
-            if (_menu.menuSegmenteLineStyle == IFMMenuSegmenteLineStylefollowContent) {
-                segmenteLine.frame = CGRectMake(_menu.edgeInsets.left, maxItemHeight-0.5, maxItemWidth - _menu.edgeInsets.left - _menu.edgeInsets.right, 0.5);
-            }else if (_menu.menuSegmenteLineStyle == IFMMenuSegmenteLineStyleFill) {
-                segmenteLine.frame = CGRectMake(0, maxItemHeight-0.5, maxItemWidth, 0.5);
-            }
-            if (_menu.menuBackgroundStyle == IFMMenuBackgroundStyleDark) {
-                segmenteLine.backgroundColor = GrayLine;
-            }else if(_menu.menuBackgroundStyle == IFMMenuBackgroundStyleLight){
-                segmenteLine.backgroundColor = GrayLine;
-            }
-            if (_menu.segmenteLineColor) {
-                segmenteLine.backgroundColor = _menu.segmenteLineColor;
-            }
-            [button addSubview:segmenteLine];
-        }
+//        //画分割线
+//        if (itemNum < _menuItems.count - 1) {
+//
+//            UIView *segmenteLine = [[UIView alloc] init];
+//
+//            if (_menu.menuSegmenteLineStyle == IFMMenuSegmenteLineStylefollowContent) {
+//                segmenteLine.frame = CGRectMake(_menu.edgeInsets.left, maxItemHeight-0.5, maxItemWidth - _menu.edgeInsets.left - _menu.edgeInsets.right, 0.5);
+//            }else if (_menu.menuSegmenteLineStyle == IFMMenuSegmenteLineStyleFill) {
+//                segmenteLine.frame = CGRectMake(0, maxItemHeight-0.5, maxItemWidth, 0.5);
+//            }
+//            if (_menu.menuBackgroundStyle == IFMMenuBackgroundStyleDark) {
+//                segmenteLine.backgroundColor = GrayLine;
+//            }else if(_menu.menuBackgroundStyle == IFMMenuBackgroundStyleLight){
+//                segmenteLine.backgroundColor = GrayLine;
+//            }
+//            if (_menu.segmenteLineColor) {
+//                segmenteLine.backgroundColor = _menu.segmenteLineColor;
+//            }
+//            [button addSubview:segmenteLine];
+//        }
         
-        itemY += maxItemHeight;
+        itemY += maxItemHeight + _menu.marginY;
         ++itemNum;
     }
     contentView.frame = (CGRect){0, 0, maxItemWidth, itemY + _menu.edgeInsets.bottom};
