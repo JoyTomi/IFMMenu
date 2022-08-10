@@ -40,7 +40,7 @@ typedef NS_ENUM(NSInteger, IFMMenuViewArrowDirection) {
 }
 
 - (void) dealloc {
-  NSLog(@"dealloc %@", self);
+    NSLog(@"dealloc %@", self);
 }
 
 //判断箭头方向
@@ -113,7 +113,7 @@ typedef NS_ENUM(NSInteger, IFMMenuViewArrowDirection) {
         };
         
     } else { //内容太多，居中显示
-    
+        
         _arrowDirection = IFMMenuViewArrowDirectionNone;
         
         self.frame = (CGRect) {
@@ -146,11 +146,11 @@ typedef NS_ENUM(NSInteger, IFMMenuViewArrowDirection) {
     self.frame = (CGRect){self.arrowPoint, 1, 1};
     
     [UIView animateWithDuration:0.2 animations:^(void) {
-         self.alpha = 1.0f;
-         self.frame = toFrame;
-     } completion:^(BOOL completed) {
-         _contentView.hidden = NO;
-     }];
+        self.alpha = 1.0f;
+        self.frame = toFrame;
+    } completion:^(BOOL completed) {
+        _contentView.hidden = NO;
+    }];
 }
 
 - (void)dismissMenu:(BOOL)animated
@@ -165,12 +165,12 @@ typedef NS_ENUM(NSInteger, IFMMenuViewArrowDirection) {
     const CGRect toFrame = (CGRect){self.arrowPoint, 1, 1};
     
     [UIView animateWithDuration:0.2 animations:^(void) {
-         self.alpha = 0;
-         self.frame = toFrame;
-     } completion:^(BOOL finished) {
-         [self.superview removeFromSuperview];
-         [self removeFromSuperview];
-     }];
+        self.alpha = 0;
+        self.frame = toFrame;
+    } completion:^(BOOL finished) {
+        [self.superview removeFromSuperview];
+        [self removeFromSuperview];
+    }];
 }
 
 - (void)menuItemClick:(UIButton *)sender
@@ -213,7 +213,7 @@ typedef NS_ENUM(NSInteger, IFMMenuViewArrowDirection) {
         maxItemHeight = MAX(calculateBtn.frame.size.height, maxItemHeight);
     }
     //加上各种间距
-    maxItemWidth = maxItemWidth +_menu.edgeInsets.left+_menu.edgeInsets.right+_menu.gapBetweenImageTitle;
+    maxItemWidth = maxItemWidth +_menu.edgeInsets.left+_menu.edgeInsets.right+_menu.gapBetweenImageTitle+_menu.padding.left+_menu.padding.right;
     maxItemWidth  = MAX(maxItemWidth, _menu.minMenuItemWidth);
     maxItemHeight = MAX(maxItemHeight, _menu.minMenuItemHeight);
     
@@ -227,13 +227,13 @@ typedef NS_ENUM(NSInteger, IFMMenuViewArrowDirection) {
     for (IFMMenuItem *menuItem in _menuItems) {
         
         //画UIButton
-        const CGRect itemFrame = (CGRect){0, itemY, maxItemWidth, maxItemHeight};
+        const CGRect itemFrame = (CGRect){_menu.padding.left, itemY, maxItemWidth - _menu.padding.left - _menu.padding.right, maxItemHeight};
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.tag = itemNum;
         button.frame = itemFrame;
         button.autoresizingMask = UIViewAutoresizingNone;
         
-       //自定义样式
+        //自定义样式
         if (_menu.menuBackgroundStyle == IFMMenuBackgroundStyleDark) {
             button.backgroundColor = BlackForMenu;
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -256,25 +256,39 @@ typedef NS_ENUM(NSInteger, IFMMenuViewArrowDirection) {
             [button setTitleColor:_menu.titleColor forState:UIControlStateNormal];
         }
         //给第一个按钮画圆角
-        if (itemNum == 0) {
-            UIBezierPath * maskPath = [UIBezierPath bezierPathWithRoundedRect:button.layer.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(_menu.menuCornerRadiu, _menu.menuCornerRadiu)];
-            CAShapeLayer * maskLayer = [CAShapeLayer new];
-            maskLayer.frame = button.layer.bounds;
-            maskLayer.path = maskPath.CGPath;
-            button.layer.mask = maskLayer;
-        }
-        //给最后一个按钮画圆角
-        if (itemNum == _menuItems.count - 1) {
-            UIBezierPath * maskPath = [UIBezierPath bezierPathWithRoundedRect:button.layer.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(_menu.menuCornerRadiu, _menu.menuCornerRadiu)];
-            CAShapeLayer * maskLayer = [CAShapeLayer new];
-            maskLayer.frame = button.layer.bounds;
-            maskLayer.path = maskPath.CGPath;
-            button.layer.mask = maskLayer;
-        }
+//        if (itemNum == 0) {
+//            UIBezierPath * maskPath = [UIBezierPath bezierPathWithRoundedRect:button.layer.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(_menu.menuCornerRadiu, _menu.menuCornerRadiu)];
+//            CAShapeLayer * maskLayer = [CAShapeLayer new];
+//            maskLayer.frame = button.layer.bounds;
+//            maskLayer.path = maskPath.CGPath;
+//            button.layer.mask = maskLayer;
+//        }
+//        //给最后一个按钮画圆角
+//        if (itemNum == _menuItems.count - 1) {
+//            UIBezierPath * maskPath = [UIBezierPath bezierPathWithRoundedRect:button.layer.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(_menu.menuCornerRadiu, _menu.menuCornerRadiu)];
+//            CAShapeLayer * maskLayer = [CAShapeLayer new];
+//            maskLayer.frame = button.layer.bounds;
+//            maskLayer.path = maskPath.CGPath;
+//            button.layer.mask = maskLayer;
+//        }
         
         [button setImage:menuItem.image forState:UIControlStateNormal];
         [button addTarget:self action:@selector(menuItemClick:) forControlEvents:UIControlEventTouchUpInside];
-        [button setBackgroundImage:[self createImageWithColor:BlackForMenuHL] forState:UIControlStateHighlighted];
+        
+        if (_menu.itemHighLightColor) {
+            [button setBackgroundImage:[self createImageWithColor:_menu.itemHighLightColor] forState:UIControlStateHighlighted];
+        }else{
+            [button setBackgroundImage:[self createImageWithColor:BlackForMenuHL] forState:UIControlStateHighlighted];
+        }
+        
+        if (_menu.itemborderWidth) {
+            button.layer.borderWidth = _menu.itemborderWidth;
+        }
+        
+        if (_menu.itemborderColor) {
+            button.layer.borderColor = _menu.itemborderColor.CGColor;
+        }
+        
         [contentView addSubview:button];
         
         //画分割线
@@ -385,7 +399,7 @@ typedef NS_ENUM(NSInteger, IFMMenuViewArrowDirection) {
         }
         
         Y1 -= _menu.arrowHight;
-   }
+    }
     
     [arrowPath fill];
     

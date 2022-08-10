@@ -113,7 +113,10 @@
     menu.menuSegmenteLineStyle = IFMMenuSegmenteLineStyleFill;
     menu.menuCornerRadiu = 20;
     menu.showShadow = NO;
-
+    menu.padding = UIEdgeInsetsMake(0, 40, 0, 40);
+    menu.itemHighLightColor = [UIColor redColor];
+    menu.itemborderColor = [UIColor yellowColor];
+    menu.itemborderWidth = 3;
     [menu showFromRect:sender.frame inView:self.view];
 }
 
