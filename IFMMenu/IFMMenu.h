@@ -47,6 +47,7 @@ typedef NS_ENUM(NSInteger, IFMMenuSegmenteLineStyle) {
 @property (nonatomic, strong) UIColor *itemHighLightColor;  //高亮颜色
 @property (nonatomic, assign) CGFloat itemborderWidth;
 @property (nonatomic, strong) UIColor *itemborderColor;
+@property (nonatomic, assign) CGFloat itemCornerRadiu;
 
 - (instancetype)initWithItems:(NSArray *)items;
 - (instancetype)initWithItems:(NSArray *)items BackgroundStyle:(IFMMenuBackgroundStyle)backgroundStyle;

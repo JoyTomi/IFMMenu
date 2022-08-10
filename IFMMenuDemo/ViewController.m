@@ -117,6 +117,7 @@
     menu.itemHighLightColor = [UIColor redColor];
     menu.itemborderColor = [UIColor yellowColor];
     menu.itemborderWidth = 3;
+    menu.itemCornerRadiu = 10;
     [menu showFromRect:sender.frame inView:self.view];
 }
 

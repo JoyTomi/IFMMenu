@@ -289,6 +289,10 @@ typedef NS_ENUM(NSInteger, IFMMenuViewArrowDirection) {
             button.layer.borderColor = _menu.itemborderColor.CGColor;
         }
         
+        if (_menu.itemCornerRadiu) {
+            button.layer.cornerRadius = _menu.itemCornerRadiu;
+        }
+        
         [contentView addSubview:button];
         
         //画分割线
